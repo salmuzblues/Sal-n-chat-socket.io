@@ -18,7 +18,8 @@ socket.on('connect', function() {
     // para emitir un mensaje de que se conecto el usuario
     /** FRONT emits to SERVER **/
     socket.emit('entrarChat', usuario, function(resp) {
-        console.log('Usuarios conectados', resp);
+        // console.log('Usuarios conectados', resp);
+        renderizarUsuarios(resp);
     });
 });
 
@@ -29,24 +30,18 @@ socket.on('disconnect', function() {
 
 });
 
-/*
-// Enviar información
-socket.emit('crearMensaje', {
-    usuario: 'Fernando',
-    mensaje: 'Hola Mundo'
-}, function(resp) {
-    console.log('respuesta server: ', resp);
-});
-*/
+
 // Escuchar información del administrador de quien abandono el chat 
 socket.on('crearMensaje', function(mensaje) {
-    console.log('Servidor:', mensaje);
+    // console.log('Servidor:', mensaje);
+    renderizarMensaje(mensaje, false);
+    scrollBottom();
 });
 
 // escuchar cambios de usuarios. 
 // cuando un usuario entra o sale del chat.
 socket.on('listaPersona', (personas) => {
-    console.log(personas);
+    renderizarUsuarios(personas);
 });
 // mensajes privados 
 socket.on('mensajePrivado', (mensaje) => {
